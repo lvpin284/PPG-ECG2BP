@@ -47,4 +47,4 @@ def train_model(dataset_path: str, config: TrainerConfig) -> Dict[str, float]:
             num_batches += 1
         final_loss = epoch_loss / max(num_batches, 1)
 
-    return {"final_loss": final_loss, "samples": float(len(samples)), "epochs": float(config.epochs)}
+    return {"final_loss": final_loss, "samples": len(samples), "epochs": config.epochs}

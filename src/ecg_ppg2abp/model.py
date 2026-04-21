@@ -37,7 +37,7 @@ class ECGPPGCLIPTransformer:
         seed: Random seed used for reproducible initialization.
 
     轻量级 ECG+PPG 多模态融合模型：
-    - 模态编码：简化 Transformer self-attention
+    - 模态编码：简化 Transformer Self-Attention
     - 跨模态对齐：CLIP 风格 cosine alignment
     - 回归头：输出 ABP 波形
     """

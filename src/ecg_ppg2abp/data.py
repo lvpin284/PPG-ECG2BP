@@ -11,7 +11,7 @@ class Sample:
     abp: List[float]
 
 
-def load_mimic3_jsonl(path: str) -> List[Sample]:
+def load_samples_jsonl(path: str) -> List[Sample]:
     """Load JSONL samples with required keys: ecg, ppg, abp.
 
     Raises ValueError for malformed rows or empty datasets.
@@ -36,6 +36,11 @@ def load_mimic3_jsonl(path: str) -> List[Sample]:
     if not records:
         raise ValueError(f"No valid samples found in {path}")
     return records
+
+
+def load_mimic3_jsonl(path: str) -> List[Sample]:
+    """Backward-compatible alias for loading extracted MIMIC-III JSONL samples."""
+    return load_samples_jsonl(path)
 
 
 def iter_batches(samples: List[Sample], batch_size: int) -> Iterable[List[Sample]]:
