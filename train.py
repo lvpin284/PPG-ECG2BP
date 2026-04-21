@@ -12,8 +12,10 @@ from ecg_ppg2abp.train import TrainerConfig, train_model
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="ECG+PPG 多模态融合训练（Transformer + CLIP-style）")
-    parser.add_argument("--dataset", required=True, help="MIMIC3 JSONL 文件路径")
+    parser = argparse.ArgumentParser(
+        description="Train ECG+PPG multimodal ABP model (Transformer + CLIP-style)"
+    )
+    parser.add_argument("--dataset", required=True, help="Path to MIMIC3 JSONL dataset")
     parser.add_argument("--epochs", type=int, default=10)
     parser.add_argument("--batch-size", type=int, default=8)
     parser.add_argument("--learning-rate", type=float, default=1e-3)

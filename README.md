@@ -1,6 +1,7 @@
 # PPG-ECG2BP
 
-一个可直接运行的 ECG + PPG 多模态融合预测 ABP 的最小实现，面向已提取好的 MIMIC-III 数据。
+A minimal runnable ECG + PPG multimodal ABP prediction pipeline for extracted MIMIC-III data.  
+（面向已提取 MIMIC-III 数据的 ECG + PPG 多模态 ABP 预测最小实现）
 
 ## 模型设计（轻量级）
 
@@ -8,11 +9,11 @@
 - **CLIP 风格对齐损失**：通过 cosine alignment 约束 ECG/PPG 表征对齐；
 - **融合回归头**：拼接双模态 embedding，预测 ABP 波形。
 
-实现位于：
+Implementation:
 
-- `/home/runner/work/PPG-ECG2BP/PPG-ECG2BP/src/ecg_ppg2abp/model.py`
-- `/home/runner/work/PPG-ECG2BP/PPG-ECG2BP/src/ecg_ppg2abp/train.py`
-- `/home/runner/work/PPG-ECG2BP/PPG-ECG2BP/train.py`
+- `src/ecg_ppg2abp/model.py`
+- `src/ecg_ppg2abp/train.py`
+- `train.py`
 
 ## 数据格式（JSONL）
 
@@ -29,7 +30,7 @@
 ## 训练命令
 
 ```bash
-python /home/runner/work/PPG-ECG2BP/PPG-ECG2BP/train.py \
+python train.py \
   --dataset /path/to/mimic3_extracted.jsonl \
   --epochs 20 \
   --batch-size 16 \
@@ -43,6 +44,5 @@ python /home/runner/work/PPG-ECG2BP/PPG-ECG2BP/train.py \
 ## 测试
 
 ```bash
-cd /home/runner/work/PPG-ECG2BP/PPG-ECG2BP
 python -m unittest discover -s tests -v
 ```
