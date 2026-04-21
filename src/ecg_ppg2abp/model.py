@@ -30,6 +30,12 @@ class ECGPPGCLIPTransformer:
     - Cross-modal alignment: CLIP-style cosine alignment
     - Regression head: predicts ABP waveform
 
+    Args:
+        seq_len: Fixed length of ECG/PPG input windows.
+        embed_dim: Embedding dimension for each modality encoder.
+        abp_len: Output ABP waveform length.
+        seed: Random seed used for reproducible initialization.
+
     轻量级 ECG+PPG 多模态融合模型：
     - 模态编码：简化 Transformer self-attention
     - 跨模态对齐：CLIP 风格 cosine alignment
@@ -93,6 +99,7 @@ class ECGPPGCLIPTransformer:
         return self._encode_signal(ecg, self.ecg_proj), self._encode_signal(ppg, self.ppg_proj)
 
     def clip_alignment_loss(self, ecg_emb: List[float], ppg_emb: List[float], temperature: float = 0.07) -> float:
+        """Return CLIP-style pairwise alignment loss using temperature-scaled cosine similarity."""
         similarity = _cosine(ecg_emb, ppg_emb) / max(temperature, 1e-6)
         # Single-pair approximation: maximize similarity with a stable logistic objective.
         if similarity > 20:

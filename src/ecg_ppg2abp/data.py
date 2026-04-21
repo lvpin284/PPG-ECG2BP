@@ -12,6 +12,10 @@ class Sample:
 
 
 def load_mimic3_jsonl(path: str) -> List[Sample]:
+    """Load JSONL samples with required keys: ecg, ppg, abp.
+
+    Raises ValueError for malformed rows or empty datasets.
+    """
     records: List[Sample] = []
     file_path = Path(path)
     with file_path.open("r", encoding="utf-8") as f:
@@ -35,5 +39,6 @@ def load_mimic3_jsonl(path: str) -> List[Sample]:
 
 
 def iter_batches(samples: List[Sample], batch_size: int) -> Iterable[List[Sample]]:
+    """Yield mini-batches; the last batch may be smaller than batch_size."""
     for i in range(0, len(samples), batch_size):
         yield samples[i : i + batch_size]
