@@ -24,6 +24,8 @@ def _cosine(a: List[float], b: List[float]) -> float:
 
 
 class ECGPPGCLIPTransformer:
+    SIMILARITY_SATURATION_THRESHOLD = 20.0
+
     """
     Lightweight ECG+PPG multimodal fusion model for ABP prediction.
     - Modality encoder: simplified Transformer self-attention
@@ -146,4 +148,3 @@ class ECGPPGCLIPTransformer:
 
         clip_loss = self.clip_alignment_loss(ecg_emb, ppg_emb)
         return mse + clip_weight * clip_loss
-    SIMILARITY_SATURATION_THRESHOLD = 20.0
