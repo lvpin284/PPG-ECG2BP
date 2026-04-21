@@ -34,6 +34,8 @@ def _batch_train_step(
 
 def train_model(dataset_path: str, config: TrainerConfig) -> Dict[str, float]:
     samples = load_mimic3_jsonl(dataset_path)
+    if not samples:
+        raise ValueError("Dataset cannot be empty")
     seq_len = len(samples[0].ecg)
     abp_len = len(samples[0].abp)
     model = ECGPPGCLIPTransformer(seq_len=seq_len, embed_dim=config.embed_dim, abp_len=abp_len)

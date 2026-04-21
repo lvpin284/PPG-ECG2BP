@@ -98,11 +98,13 @@ class ECGPPGCLIPTransformer:
     def encode_pair(self, ecg: List[float], ppg: List[float]) -> Tuple[List[float], List[float]]:
         return self._encode_signal(ecg, self.ecg_proj), self._encode_signal(ppg, self.ppg_proj)
 
-    def clip_alignment_loss(self, ecg_emb: List[float], ppg_emb: List[float], temperature: float = 0.07) -> float:
+    def clip_alignment_loss(
+        self, ecg_emb: List[float], ppg_emb: List[float], alignment_temperature: float = 0.07
+    ) -> float:
         """Return CLIP-style pairwise alignment loss using temperature-scaled cosine similarity."""
-        similarity = _cosine(ecg_emb, ppg_emb) / max(temperature, 1e-6)
+        similarity = _cosine(ecg_emb, ppg_emb) / max(alignment_temperature, 1e-6)
         # Single-pair approximation: maximize similarity with a stable logistic objective.
-        if similarity > 20:
+        if similarity > self.SIMILARITY_SATURATION_THRESHOLD:
             return math.exp(-similarity)
         return math.log1p(math.exp(-similarity))
 
@@ -144,3 +146,4 @@ class ECGPPGCLIPTransformer:
 
         clip_loss = self.clip_alignment_loss(ecg_emb, ppg_emb)
         return mse + clip_weight * clip_loss
+    SIMILARITY_SATURATION_THRESHOLD = 20.0
