@@ -94,8 +94,10 @@ class ECGPPGCLIPTransformer:
 
     def clip_alignment_loss(self, ecg_emb: List[float], ppg_emb: List[float], temperature: float = 0.07) -> float:
         similarity = _cosine(ecg_emb, ppg_emb) / max(temperature, 1e-6)
-        # 单样本近似：希望相似度越高越好
-        return max(0.0, 1.0 - similarity)
+        # Single-pair approximation: maximize similarity with a stable logistic objective.
+        if similarity > 20:
+            return math.exp(-similarity)
+        return math.log1p(math.exp(-similarity))
 
     def predict_abp(self, ecg: List[float], ppg: List[float]) -> List[float]:
         ecg_emb, ppg_emb = self.encode_pair(ecg, ppg)
