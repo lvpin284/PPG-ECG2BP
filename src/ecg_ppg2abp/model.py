@@ -25,6 +25,11 @@ def _cosine(a: List[float], b: List[float]) -> float:
 
 class ECGPPGCLIPTransformer:
     """
+    Lightweight ECG+PPG multimodal fusion model for ABP prediction.
+    - Modality encoder: simplified Transformer self-attention
+    - Cross-modal alignment: CLIP-style cosine alignment
+    - Regression head: predicts ABP waveform
+
     轻量级 ECG+PPG 多模态融合模型：
     - 模态编码：简化 Transformer self-attention
     - 跨模态对齐：CLIP 风格 cosine alignment
